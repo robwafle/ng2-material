@@ -1,14 +1,14 @@
 // TODO(jd): auto generate import/exports for examples during the grunt site-meta task.
 
 
-import {CONST_EXPR, Type} from "angular2/src/facade/lang";
+import {Type} from "@angular/common/src/facade/lang";
 import CardBasicUsage from "./components/card/basic_usage";
 import CardInlineActions from "./components/card/inline_actions";
 import ButtonBasicUsage from "./components/button/basic_usage";
 import CardActionButtons from "./components/card/action_buttons";
 import DataTableBasicUsage from './components/data_table/basic_usage';
 import DataTableSelectableUsage from './components/data_table/selectable_usage';
-import DialogBasicUsage from "./components/dialog/basic_usage";
+//import DialogBasicUsage from "./components/dialog/basic_usage";
 import ToolbarBasicUsage from "./components/toolbar/basic_usage";
 import ToolbarScrollShrink from "./components/toolbar/scroll_shrink";
 import ProgressLinearBasicUsage from "./components/progress_linear/basic_usage";
@@ -28,12 +28,12 @@ import SidenavBasicUsage from "./components/sidenav/basic_usage";
 /**
  * Collection of Material Design component example directives.
  */
-export const DEMO_DIRECTIVES: Type[] = CONST_EXPR([
+export const DEMO_DIRECTIVES = [
   CardBasicUsage, CardInlineActions, CardActionButtons,
   ButtonBasicUsage,
   CheckboxBasicUsage, CheckboxSyncing,
   DataTableBasicUsage, DataTableSelectableUsage,
-  DialogBasicUsage,
+ // DialogBasicUsage,
   InputBasicUsage,
   InputFormBuilder,
   ListBasicUsage,
@@ -46,6 +46,6 @@ export const DEMO_DIRECTIVES: Type[] = CONST_EXPR([
   ProgressCircularBasicUsage,
   SidenavBasicUsage,
   WhiteframeBasicUsage
-]);
+];
 
 export * from './example';

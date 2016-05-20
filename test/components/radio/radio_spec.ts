@@ -1,26 +1,27 @@
 import {
-  TestComponentBuilder,
   beforeEach,
   describe,
   expect,
   inject,
   it,
-  injectAsync,
-  ComponentFixture
-} from "angular2/testing";
-import {Component, DebugElement} from "angular2/core";
+  injectAsync
+} from "@angular/core/testing";
+import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
+import {Component, DebugElement} from "@angular/core";
 import {MdRadioGroup, MdRadioButton} from "../../../ng2-material/components/radio/radio_button";
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
+import {DomAdapter} from "@angular/platform-browser/src/dom/dom_adapter";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter";
 import {KeyCodes} from "../../../ng2-material/core/key_codes";
-import {By} from "angular2/platform/browser";
-
+import {By} from "@angular/platform-browser";
+//import { Promise } from "es6-promise";
 
 // TODO(jd): This needs a better fixture.  There are a TON of debug queries inline.
 
 export function main() {
+  let dom: DomAdapter = new BrowserDomAdapter();
 
   let sendKey = (to: DebugElement, keyCode: number) => {
-    let event = DOM.createEvent('key');
+    let event = dom.createEvent('key');
     event.keyCode = keyCode;
     to.triggerEventHandler('keydown', event);
   }
@@ -47,7 +48,7 @@ export function main() {
   describe('Radios', () => {
     let builder: TestComponentBuilder;
 
-    function setup(template: string = null, typeFn: any = TestComponent): Promise<ComponentFixture> {
+    function setup(template: string = null, typeFn: any = TestComponent): Promise<ComponentFixture<any>> {
       return template ?
         builder.overrideTemplate(typeFn, template).createAsync(typeFn) :
         builder.createAsync(typeFn);
@@ -59,7 +60,7 @@ export function main() {
 
     describe('md-radio-group', () => {
       it('should set value from initial binding', injectAsync([], () => {
-        return builder.createAsync(TestComponent).then((fixture: ComponentFixture) => {
+        return builder.createAsync(TestComponent).then((fixture: ComponentFixture<any>) => {
           fixture.detectChanges();
           let radioGroup = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
           expect(radioGroup.value).toBe('Banana');
@@ -71,7 +72,7 @@ export function main() {
               <md-radio-button id="rdo1" value="Apple"></md-radio-button>
               <md-radio-button id="rdo2" value="Banana"></md-radio-button>
             </md-radio-group>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           let radio = fixture.debugElement.query(By.css('#rdo1'));
           let radio2 = fixture.debugElement.query(By.css('#rdo2'));
           let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
@@ -94,7 +95,7 @@ export function main() {
               <md-radio-button id="rdo1" value="Apple"></md-radio-button>
               <md-radio-button id="rdo2" value="Banana"></md-radio-button>
             </md-radio-group>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           let radio = fixture.debugElement.query(By.css('#rdo1'));
           let radio2 = fixture.debugElement.query(By.css('#rdo2'));
           let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
@@ -110,7 +111,7 @@ export function main() {
               <md-radio-button id="rdo1" value="Apple"></md-radio-button>
               <md-radio-button id="rdo2" value="Banana"></md-radio-button>
             </md-radio-group>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           let radio = fixture.debugElement.query(By.css('#rdo1'));
           let radio2 = fixture.debugElement.query(By.css('#rdo2'));
           let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
@@ -124,7 +125,7 @@ export function main() {
       }));
       it('should accept value even if no matching child is found', injectAsync([], () => {
         let template = `<md-radio-group></md-radio-group>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
           expect(group.value).toBeFalsy();
           group.value = "Apple";
@@ -137,7 +138,7 @@ export function main() {
             <md-radio-group disabled>
               <md-radio-button>Apple</md-radio-button>
             </md-radio-group>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           fixture.detectChanges();
           let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
           expect(group.disabled).toBe(true);
@@ -152,7 +153,7 @@ export function main() {
               <md-radio-button checked value="Apple"></md-radio-button>
               <md-radio-button value="Banana"></md-radio-button>
             </md-radio-group>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           fixture.detectChanges();
           let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
           expect(group.value).toBe('Apple');
@@ -170,7 +171,7 @@ export function main() {
           </md-radio-group>`;
 
         it('should step to the previous radio when the up arrow key is pressed', injectAsync([], () => {
-          return setup(template).then((fixture: ComponentFixture) => {
+          return setup(template).then((fixture: ComponentFixture<any>) => {
             fixture.detectChanges();
 
             let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
@@ -181,7 +182,7 @@ export function main() {
           });
         }));
         it('should not step beyond the first radio when up key is pressed', injectAsync([], () => {
-          return setup(template).then((fixture: ComponentFixture) => {
+          return setup(template).then((fixture: ComponentFixture<any>) => {
             fixture.detectChanges();
 
             let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
@@ -194,7 +195,7 @@ export function main() {
           });
         }));
         it('should step to the next radio when the down arrow key is pressed', injectAsync([], () => {
-          return setup(template).then((fixture: ComponentFixture) => {
+          return setup(template).then((fixture: ComponentFixture<any>) => {
             fixture.detectChanges();
 
             let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
@@ -205,7 +206,7 @@ export function main() {
           });
         }));
         it('should not step beyond the last radio when down key is pressed', injectAsync([], () => {
-          return setup(template).then((fixture: ComponentFixture) => {
+          return setup(template).then((fixture: ComponentFixture<any>) => {
             fixture.detectChanges();
 
             let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
@@ -219,7 +220,7 @@ export function main() {
         }));
 
         it('should not step forward or back when radio group is disabled', injectAsync([], () => {
-          return setup(template).then((fixture: ComponentFixture) => {
+          return setup(template).then((fixture: ComponentFixture<any>) => {
             fixture.detectChanges();
 
             let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
@@ -235,7 +236,7 @@ export function main() {
 
 
         it('should skip over disabled radios when up/down keys are pressed', injectAsync([], () => {
-          return setup(template).then((fixture: ComponentFixture) => {
+          return setup(template).then((fixture: ComponentFixture<any>) => {
             fixture.detectChanges();
 
             let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
@@ -258,7 +259,7 @@ export function main() {
             <md-radio-group>
               <md-radio-button disabled value="Apple">Apple</md-radio-button>
             </md-radio-group>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           let radio = fixture.debugElement.query(By.css('md-radio-button'));
           let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
           expect(group.getSelectedRadioIndex()).toBe(-1);
@@ -274,7 +275,7 @@ export function main() {
             <md-radio-group>
               <md-radio-button value="Apple">Apple</md-radio-button>
             </md-radio-group>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           let radio = fixture.debugElement.query(By.css('md-radio-button'));
           let group = <MdRadioGroup>fixture.debugElement.query(By.css('md-radio-group')).componentInstance;
           expect(group.value).toBeFalsy();
@@ -285,7 +286,7 @@ export function main() {
 
       it('should default tabindex to 0 when used outside of a md-radio-group', injectAsync([], () => {
         let template = `<md-radio-button></md-radio-button>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           fixture.detectChanges();
           let radio: MdRadioButton = fixture.debugElement.query(By.css('md-radio-button')).componentInstance;
           expect(radio.tabindex).toBe(0);
@@ -294,7 +295,7 @@ export function main() {
       }));
       it('should set tabindex by attribute when used outside of a md-radio-group', injectAsync([], () => {
         let template = `<md-radio-button tabindex="17"></md-radio-button>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           fixture.detectChanges();
           let radio: MdRadioButton = fixture.debugElement.query(By.css('md-radio-button')).componentInstance;
           expect(radio.tabindex).toBe(17);
@@ -304,7 +305,7 @@ export function main() {
 
       it('should be checkable without a md-radio-group', injectAsync([], () => {
         let template = `<md-radio-button value="Apple">Apple</md-radio-button>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           fixture.detectChanges();
           let debug = fixture.debugElement.query(By.css('md-radio-button'));
           let radio: MdRadioButton = debug.componentInstance;
@@ -318,7 +319,7 @@ export function main() {
       describe('Keyboard', () => {
         it('should check the focused radio when the space key is pressed', injectAsync([], () => {
           let template = `<md-radio-button></md-radio-button>`;
-          return setup(template).then((fixture: ComponentFixture) => {
+          return setup(template).then((fixture: ComponentFixture<any>) => {
             fixture.detectChanges();
 
             let debug = fixture.debugElement.query(By.css('md-radio-button'));
@@ -336,7 +337,7 @@ export function main() {
         }));
         it('should do nothing with other keypresses', injectAsync([], () => {
           let template = `<md-radio-button></md-radio-button>`;
-          return setup(template).then((fixture: ComponentFixture) => {
+          return setup(template).then((fixture: ComponentFixture<any>) => {
             fixture.detectChanges();
 
             let radio: MdRadioButton = fixture.debugElement.query(By.css('md-radio-button')).componentInstance;

@@ -8,9 +8,9 @@ import {
   ViewEncapsulation,
   Query,
   ElementRef
-} from "angular2/core";
+} from "@angular/core";
 import {Ink} from "../../core/util/ink";
-import {NgFor} from "angular2/common";
+import {NgFor} from "@angular/common";
 
 
 // TODO: behaviors to test
@@ -35,7 +35,7 @@ export class MdTab {
   private _active: boolean = false;
 
   constructor(public viewContainer: ViewContainerRef,
-              public templateRef: TemplateRef) {
+              public templateRef: TemplateRef<any>) {
   }
 
   @Input() set active(active: boolean) {
@@ -92,7 +92,7 @@ export class MdTabs {
   @Input()
   mdNoScroll: boolean = false;
 
-  constructor(@Query(MdTab)
+  constructor(@Query(typeof(MdTab))
               public panes: QueryList<MdTab>,
               private _element: ElementRef) {
     this.panes.changes.subscribe((_) => {

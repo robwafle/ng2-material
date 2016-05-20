@@ -10,9 +10,9 @@ import {
   Output,
   Input,
   OnDestroy
-} from "angular2/core";
-import {isPresent, StringWrapper} from "angular2/src/facade/lang";
-import {ObservableWrapper, EventEmitter} from "angular2/src/facade/async";
+} from "@angular/core";
+import {isPresent, StringWrapper} from "@angular/common/src/facade/lang";
+import {ObservableWrapper, EventEmitter} from "@angular/common/src/facade/async";
 import {MdRadioDispatcher} from "./radio_dispatcher";
 import {KeyCodes} from "../../core/key_codes";
 import {parseTabIndexAttribute} from "../../core/util/util";

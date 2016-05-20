@@ -1,7 +1,7 @@
-import {Directive, AfterContentInit, Input, OnChanges, OnDestroy, ElementRef} from "angular2/core";
+import {Directive, AfterContentInit, Input, OnChanges, OnDestroy, ElementRef} from "@angular/core";
 import {debounce, throttle} from "../../core/util/util";
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
-import {isPresent, isString, NumberWrapper} from "angular2/src/facade/lang";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter";
+import {isPresent, isString, NumberWrapper} from "@angular/common/src/facade/lang";
 import {ViewportHelper} from "../../core/util/viewport";
 
 
@@ -89,7 +89,10 @@ export class MdToolbar implements AfterContentInit, OnChanges, OnDestroy {
 
   private _mdScrollShrink: boolean = false;
 
+  private dom : BrowserDomAdapter;
+
   constructor(public el: ElementRef, public viewport: ViewportHelper) {
+    this.dom = new BrowserDomAdapter();
     this._debouncedContentScroll = throttle(this.onContentScroll, 10, this);
     this._debouncedUpdateHeight = debounce(this.updateToolbarHeight, 5 * 1000, this);
   }
@@ -100,12 +103,12 @@ export class MdToolbar implements AfterContentInit, OnChanges, OnDestroy {
       return;
     }
     // TODO(jd): better way to find siblings?
-    this._content = DOM.querySelector(DOM.parentElement(this.el.nativeElement), 'md-content');
+    this._content = this.dom.querySelector(this.dom.parentElement(this.el.nativeElement), 'md-content');
     if (!this._content) {
       return;
     }
-    this._cancelScrollShrink = DOM.onAndCancel(this._content, 'scroll', this._debouncedContentScroll);
-    DOM.setAttribute(this._content, 'scroll-shrink', 'true');
+    this._cancelScrollShrink = this.dom.onAndCancel(this._content, 'scroll', this._debouncedContentScroll);
+    this.dom.setAttribute(this._content, 'scroll-shrink', 'true');
     this.viewport.requestFrame(this.updateToolbarHeight.bind(this));
   }
 
@@ -125,7 +128,7 @@ export class MdToolbar implements AfterContentInit, OnChanges, OnDestroy {
   }
 
   updateToolbarHeight() {
-    this._toolbarHeight = DOM.getProperty(this.el.nativeElement, 'offsetHeight');
+    this._toolbarHeight = this.dom.getProperty(this.el.nativeElement, 'offsetHeight');
     if (this._content) {
       // Add a negative margin-top the size of the toolbar to the content el.
       // The content will start transformed down the toolbarHeight amount,
@@ -135,8 +138,8 @@ export class MdToolbar implements AfterContentInit, OnChanges, OnDestroy {
       // to put the content underneath where the toolbar was.
       var margin = (-this._toolbarHeight * this.mdShrinkSpeed) + 'px';
 
-      DOM.setStyle(this._content, "margin-top", margin);
-      DOM.setStyle(this._content, "margin-bottom", margin);
+      this.dom.setStyle(this._content, "margin-top", margin);
+      this.dom.setStyle(this._content, "margin-bottom", margin);
 
       this.onContentScroll();
     }
@@ -154,20 +157,20 @@ export class MdToolbar implements AfterContentInit, OnChanges, OnDestroy {
 
     let toolbarXform = `translate3d(0,${-this._currentY * this.mdShrinkSpeed}px,0)`;
     let contentXform = `translate3d(0,${(this._toolbarHeight - this._currentY) * this.mdShrinkSpeed}px,0)`;
-    DOM.setStyle(this._content, '-webkit-transform', contentXform);
-    DOM.setStyle(this._content, 'transform', contentXform);
-    DOM.setStyle(this.el.nativeElement, '-webkit-transform', toolbarXform);
-    DOM.setStyle(this.el.nativeElement, 'transform', toolbarXform);
+    this.dom.setStyle(this._content, '-webkit-transform', contentXform);
+    this.dom.setStyle(this._content, 'transform', contentXform);
+    this.dom.setStyle(this.el.nativeElement, '-webkit-transform', toolbarXform);
+    this.dom.setStyle(this.el.nativeElement, 'transform', toolbarXform);
 
     this._previousScrollTop = scrollTop;
 
     this.viewport.requestFrame(() => {
-      var hasWhiteFrame = DOM.hasClass(this.el.nativeElement, 'md-whiteframe-z1');
+      var hasWhiteFrame = this.dom.hasClass(this.el.nativeElement, 'md-whiteframe-z1');
 
       if (hasWhiteFrame && !this._currentY) {
-        DOM.removeClass(this.el.nativeElement, 'md-whiteframe-z1');
+        this.dom.removeClass(this.el.nativeElement, 'md-whiteframe-z1');
       } else if (!hasWhiteFrame && this._currentY) {
-        DOM.addClass(this.el.nativeElement, 'md-whiteframe-z1');
+        this.dom.addClass(this.el.nativeElement, 'md-whiteframe-z1');
       }
     });
 

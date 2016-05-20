@@ -1,6 +1,7 @@
-import {describe, it, expect} from "angular2/testing";
-import {Control} from "angular2/common";
+import {describe, it, expect} from "@angular/core/testing";
+import {Control} from "@angular/common";
 import {MdPatternValidator, MdNumberRequiredValidator} from "../../../ng2-material/components/form/validators";
+//import { Promise } from "es6-promise";
 
 export function main() {
 

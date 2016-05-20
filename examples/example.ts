@@ -1,10 +1,10 @@
-import {Component, Input, DynamicComponentLoader, ElementRef, ComponentRef, Query, QueryList} from "angular2/core";
+import {Component, Input, DynamicComponentLoader, ElementRef, ComponentRef, Query, QueryList} from "@angular/core";
 import {IExampleData} from "./app";
 import {DEMO_DIRECTIVES} from "./all";
-import {MATERIAL_DIRECTIVES, MdTabs} from "ng2-material/all";
-import {Http, Response} from "angular2/http";
+import {MATERIAL_DIRECTIVES, MdTabs} from "../ng2-material/all";
+import {Http, Response} from "@angular/http";
 import {Highlight} from "./highlight";
-import {TimerWrapper} from "angular2/src/facade/async";
+import {TimerWrapper} from "@angular/common/src/facade/async";
 
 
 export interface ISourceFile {
@@ -20,7 +20,7 @@ export interface ISourceFile {
 })
 export default class Example {
   private _model: IExampleData = null;
-  private _reference: ComponentRef = null;
+  private _reference: ComponentRef<any> = null;
 
   @Input()
   set model(value: IExampleData) {
@@ -85,14 +85,14 @@ export default class Example {
     })
     class CompiledComponent {
     }
-    this.dcl.loadIntoLocation(CompiledComponent, this._element, 'example')
-      .then((ref: ComponentRef) => {
-        if (this._reference) {
-          this._reference.dispose();
-        }
-        this._loaded = true;
-        this._reference = ref;
-      });
+    // this.dcl.loadIntoLocation(CompiledComponent, this._element, 'example')
+    //   .then((ref: ComponentRef<any>) => {
+    //     if (this._reference) {
+    //       this._reference.dispose();
+    //     }
+    //     this._loaded = true;
+    //     this._reference = ref;
+    //   });
 
 
   }

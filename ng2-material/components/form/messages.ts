@@ -1,6 +1,6 @@
-import {isPresent} from "angular2/src/facade/lang";
-import {NgFormModel, NgControlName, ControlGroup, AbstractControl} from "angular2/common";
-import {Input, Directive, Optional, SkipSelf, Host, OnDestroy, OnInit, QueryList, Query} from "angular2/core";
+import {isPresent} from "@angular/common/src/facade/lang";
+import {NgFormModel, NgControlName, ControlGroup, AbstractControl} from "@angular/common";
+import {Input, Directive, Optional, SkipSelf, Host, OnDestroy, OnInit, QueryList, Query} from "@angular/core";
 
 
 // TODO(jd): Behaviors to test
@@ -59,7 +59,7 @@ export class MdMessages implements OnInit, OnDestroy {
   }
 
 
-  constructor(@Query(MdMessage)
+  constructor(@Query(typeof(MdMessage))
               public messages: QueryList<MdMessage>,
               @Optional() @SkipSelf() @Host()
               public form: NgFormModel) {

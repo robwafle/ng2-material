@@ -1,7 +1,8 @@
 import {Animate} from "../../core/util/animate";
-import {ElementRef, ViewEncapsulation, Component, Input, Output, EventEmitter} from "angular2/core";
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
+import {ElementRef, ViewEncapsulation, Component, Input, Output, EventEmitter} from "@angular/core";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter.d";
 import {ViewportHelper} from "../../core/util/viewport";
+//import { Promise } from "es6-promise";
 
 /**
  * An overlay for content on the page.
@@ -56,8 +57,11 @@ export class MdBackdrop {
   @Output()
   onShown: EventEmitter<MdBackdrop> = new EventEmitter<MdBackdrop>();
 
+  private dom : BrowserDomAdapter;
+
   constructor(public element: ElementRef, public viewport: ViewportHelper) {
-    this._body = DOM.querySelector(viewport.getDocumentNativeElement(), 'body');
+    this.dom = new BrowserDomAdapter();
+    this._body = this.dom.querySelector(viewport.getDocumentNativeElement(), 'body');
   }
 
   /**
@@ -136,14 +140,14 @@ export class MdBackdrop {
 
     // Page scroll
     if (visible && this.hideScroll && this.element && !this._previousOverflow) {
-      let style = DOM.getStyle(this._body, 'overflow');
+      let style = this.dom.getStyle(this._body, 'overflow');
       if (style !== 'hidden') {
         this._previousOverflow = style;
-        DOM.setStyle(this._body, 'overflow', 'hidden');
+        this.dom.setStyle(this._body, 'overflow', 'hidden');
       }
     }
     else if (!visible && this.hideScroll && this.element && this._previousOverflow !== null) {
-      DOM.setStyle(this._body, 'overflow', this._previousOverflow);
+      this.dom.setStyle(this._body, 'overflow', this._previousOverflow);
       this._previousOverflow = null;
     }
 

@@ -1,23 +1,23 @@
-import {Component, ViewEncapsulation, Input} from "angular2/core";
-import {CONST, isBlank, isPresent} from "angular2/src/facade/lang";
+import {Component, ViewEncapsulation, Input} from "@angular/core";
+import { isBlank, isPresent} from "@angular/common/src/facade/lang";
 import {MdProgressLinear} from "../progress_linear/progress_linear";
-import {Math} from "angular2/src/facade/math";
+import {Math} from "@angular/platform-browser/src/facade/math";
 
-@CONST()
+//@CONST()
 class ProgressMode {
-  @CONST()
+ // @CONST()
   static DETERMINATE = 'determinate';
-  @CONST()
+  //@CONST()
   static INDETERMINATE = 'indeterminate';
 }
 
-@CONST()
+//@CONST()
 class Defaults {
-  @CONST()
+  //@CONST()
   static DEFAULT_PROGRESS_SIZE = 100;
-  @CONST()
+  //@CONST()
   static DEFAULT_SCALING = 0.5;
-  @CONST()
+  //@CONST()
   static DEFAULT_HALF_TRANSITION = 'transform 0.1s linear';
 }
 

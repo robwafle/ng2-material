@@ -9,11 +9,11 @@ import {
   Output,
   Optional,
   HostBinding
-} from "angular2/core";
-import {NgModel, NgControl, FORM_PROVIDERS} from "angular2/common";
-import {ObservableWrapper, EventEmitter, TimerWrapper} from "angular2/src/facade/async";
-import {isBlank} from "angular2/src/facade/lang";
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
+} from "@angular/core";
+import {NgModel, NgControl, FORM_PROVIDERS} from "@angular/common";
+import {ObservableWrapper, EventEmitter, TimerWrapper} from "@angular/common/src/facade/async";
+import {isBlank} from "@angular/common/src/facade/lang";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter";
 
 // TODO(jd): <select> hasFocus/hasValue classes
 // TODO(jd): input container validation styles.
@@ -34,9 +34,11 @@ import {DOM} from "angular2/src/platform/dom/dom_adapter";
 })
 export class MdInput {
   _value: string;
+  private dom : BrowserDomAdapter;
 
   constructor(@Optional() private model: NgModel,
               @Optional() private control: NgControl) {
+    this.dom = new BrowserDomAdapter();
   }
 
   @Input('value')
@@ -70,7 +72,7 @@ export class MdInput {
 export class MdInputContainer implements AfterContentInit, OnChanges {
 
   // The MdInput or MdTextarea inside of this container.
-  @ContentChild(MdInput)
+  @ContentChild(typeof(MdInput))
   _input: MdInput = null;
 
   // Whether the input inside of this container has a non-empty value.
@@ -85,7 +87,10 @@ export class MdInputContainer implements AfterContentInit, OnChanges {
   @HostBinding('class.md-input-has-placeholder')
   inputHasPlaceholder: boolean = false;
 
+  private dom : BrowserDomAdapter;
+
   constructor(private _element: ElementRef) {
+    this.dom = new BrowserDomAdapter();
   }
 
   ngOnChanges(_) {
@@ -94,7 +99,7 @@ export class MdInputContainer implements AfterContentInit, OnChanges {
     // TODO(jd): Is there something like @ContentChild that accepts a selector? I would prefer not to
     // use a directive for label elements because I cannot use a parent->child selector to make them
     // specific to md-input
-    this.inputHasPlaceholder = !!DOM.querySelector(this._element.nativeElement, 'label') && !!this._input.placeholder;
+    this.inputHasPlaceholder = !!this.dom.querySelector(this._element.nativeElement, 'label') && !!this._input.placeholder;
   }
 
   ngAfterContentInit() {

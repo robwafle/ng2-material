@@ -1,18 +1,19 @@
 import {
-  TestComponentBuilder,
   beforeEach,
   describe,
   expect,
   inject,
   it,
-  injectAsync,
-  ComponentFixture
-} from "angular2/testing";
-import {Component, DebugElement} from "angular2/core";
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
+  injectAsync
+} from "@angular/core/testing";
+import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
+import {Component, DebugElement} from "@angular/core";
+import {DomAdapter} from "@angular/platform-browser/src/dom/dom_adapter";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter";
 import {Ink} from "../../../ng2-material/core/util/ink";
-import {By} from "angular2/platform/browser";
+import {By} from "@angular/platform-browser";
 import {MdInk} from "../../../ng2-material/components/ink/ink";
+//import { Promise } from "es6-promise";
 
 export function main() {
 
@@ -29,12 +30,13 @@ export function main() {
   describe('MdInk', () => {
 
     let builder: TestComponentBuilder;
+    let dom: DomAdapter = new BrowserDomAdapter();
 
-    function setup(template: string = defaultTemplate): Promise<ComponentFixture> {
+    function setup(template: string = defaultTemplate): Promise<ComponentFixture<any>> {
       return builder
         .overrideTemplate(TestComponent, template)
         .createAsync(TestComponent)
-        .then((fixture: ComponentFixture) => {
+        .then((fixture: ComponentFixture<any>) => {
           fixture.detectChanges();
           return fixture;
         }).catch(console.error.bind(console));
@@ -46,7 +48,7 @@ export function main() {
 
     describe('[md-ink]', () => {
       it('should ink ripple when clicked', injectAsync([], () => {
-        return setup().then((fixture: ComponentFixture) => {
+        return setup().then((fixture: ComponentFixture<any>) => {
           let element: DebugElement = fixture.debugElement.query(By.css('[md-ink]'));
 
           let save = Ink.rippleEvent;
@@ -56,7 +58,7 @@ export function main() {
             return Promise.resolve();
           };
 
-          let event = DOM.createEvent('mouse');
+          let event = dom.createEvent('mouse');
           element.triggerEventHandler('mousedown', event);
 
 
@@ -67,7 +69,7 @@ export function main() {
 
       it('should not ink ripple with md-no-ink attribute', injectAsync([], () => {
         let template = `<div md-ink md-no-ink></div>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           let element: DebugElement = fixture.debugElement.query(By.css('[md-ink]'));
           let save = Ink.rippleEvent;
           let fired = false;
@@ -76,7 +78,7 @@ export function main() {
             return Promise.resolve();
           };
 
-          let event = DOM.createEvent('mouse');
+          let event = dom.createEvent('mouse');
           element.triggerEventHandler('mousedown', event);
 
           expect(fired).toBe(false);

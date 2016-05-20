@@ -1,5 +1,5 @@
-import {Component, ViewEncapsulation, Input, Output, EventEmitter} from "angular2/core";
-import {isPresent} from "angular2/src/facade/lang";
+import {Component, ViewEncapsulation, Input, Output, EventEmitter} from "@angular/core";
+import {isPresent} from "@angular/common/src/facade/lang";
 import {KeyCodes} from "../../core/key_codes";
 import {parseTabIndexAttribute} from "../../core/util/util";
 

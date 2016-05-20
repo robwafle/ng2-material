@@ -1,5 +1,6 @@
-import {Component, Input, ViewEncapsulation, AfterContentInit, ElementRef} from "angular2/core";
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
+import {Component, Input, ViewEncapsulation, AfterContentInit, ElementRef} from "@angular/core";
+import {DomAdapter} from "@angular/platform-browser/src/dom/dom_adapter";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter";
 
 declare var hljs: any;
 
@@ -33,6 +34,7 @@ export class Highlight implements AfterContentInit {
 
   private _text: string = '';
   private _type: string = 'typescript';
+  private dom : DomAdapter = new BrowserDomAdapter();
 
   rendered: string = null;
 
@@ -42,7 +44,7 @@ export class Highlight implements AfterContentInit {
   ngAfterContentInit() {
     // If there is no text binding, use the body of the element.
     if (this._text === '' && this.element) {
-      this.text = DOM.getText(this.element.nativeElement);
+      this.text = this.dom.getText(this.element.nativeElement);
     }
   }
 

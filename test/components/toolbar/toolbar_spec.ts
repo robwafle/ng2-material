@@ -1,16 +1,16 @@
 import {
-  TestComponentBuilder,
   beforeEach,
   describe,
   expect,
   inject,
   it,
-  ComponentFixture,
   injectAsync
-} from "angular2/testing";
-import {Component} from "angular2/core";
+} from "@angular/core/testing";
+import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
+import {Component} from "@angular/core";
 import {MdToolbar} from "../../../ng2-material/components/toolbar/toolbar";
-import {By} from "angular2/platform/browser";
+import {By} from "@angular/platform-browser";
+//import { Promise } from "es6-promise";
 
 export function main() {
 
@@ -25,7 +25,7 @@ export function main() {
   describe('Toolbar', () => {
     let builder: TestComponentBuilder;
 
-    function setup(template: string = null, typeFn: any = TestComponent): Promise<ComponentFixture> {
+    function setup(template: string = null, typeFn: any = TestComponent): Promise<ComponentFixture<any>> {
       return template ?
         builder.overrideTemplate(typeFn, template).createAsync(typeFn) :
         builder.createAsync(typeFn);
@@ -37,7 +37,7 @@ export function main() {
 
     describe('md-toolbar', () => {
       it('defaults mdScrollShrink to false', injectAsync([], () => {
-        return setup().then((fixture: ComponentFixture) => {
+        return setup().then((fixture: ComponentFixture<any>) => {
           fixture.detectChanges();
           let toolbar = <MdToolbar>fixture.debugElement.query(By.css('md-toolbar')).componentInstance;
           expect(toolbar.mdScrollShrink).toBe(false);
@@ -49,7 +49,7 @@ export function main() {
             <md-toolbar mdScrollShrink></md-toolbar>
             <md-content></md-content>
           </md-content>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           fixture.detectChanges();
           let toolbar = <MdToolbar>fixture.debugElement.query(By.css('md-toolbar')).componentInstance;
           expect(toolbar.mdScrollShrink).toBe(true);

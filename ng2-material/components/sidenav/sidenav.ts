@@ -17,39 +17,39 @@ import {
   Output,
   EventEmitter,
   Renderer
-} from "angular2/core";
+} from "@angular/core";
 import {MdBackdrop} from "../backdrop/backdrop";
-import {CONST} from "angular2/src/facade/lang";
+//import {CONST} from "@angular/common/src/facade/lang";
 import {SidenavService} from "./sidenav_service";
-import {TimerWrapper} from "angular2/src/facade/async";
+import {TimerWrapper} from "@angular/common/src/facade/async";
 import {ViewportHelper} from "../../core/util/viewport";
+//import { Promise } from "es6-promise";
 
-
-@CONST()
+//@CONST()
 export class SidenavAlignment {
   /**
    * The sidenav will be displayed on the left side of the content.
    */
-  @CONST()
+  //@CONST()
   static LEFT = 'left';
   /**
    * The sidenav will be displayed on the right side of the content.
    */
-  @CONST()
+  //@CONST()
   static RIGHT = 'right';
 }
 
-@CONST()
+//@CONST()
 export class SidenavStyle {
   /**
    * The sidenav will hover over the content.
    */
-  @CONST()
+  //@CONST()
   static OVER = 'over';
   /**
    * The sidenav will push the content to the side and display without obscuring it.
    */
-  @CONST()
+  //@CONST()
   static SIDE = 'side';
 }
 
@@ -181,10 +181,10 @@ export class MdSidenav extends MdBackdrop implements OnInit, OnDestroy {
 })
 export class MdSidenavContainer implements OnDestroy, AfterViewInit {
 
-  @ContentChildren(MdSidenav)
+  @ContentChildren(typeof(MdSidenav))
   children: QueryList<MdSidenav>;
 
-  @ViewChild(MdBackdrop)
+  @ViewChild(typeof(MdBackdrop))
   private _backdrop: MdBackdrop;
 
   // TODO(jd): This change detection hacking could probably be avoided if Zone.JS knew about media

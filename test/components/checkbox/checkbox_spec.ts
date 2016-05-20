@@ -1,26 +1,26 @@
 import {componentSanityCheck} from "../../util";
 import {
-  TestComponentBuilder,
   beforeEach,
   describe,
   expect,
   inject,
   it,
-  injectAsync,
-  ComponentFixture
-} from "angular2/testing";
-import {Component, DebugElement} from "angular2/core";
-import {CORE_DIRECTIVES} from "angular2/common";
+  injectAsync
+} from "@angular/core/testing";
+import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
+import {Component, DebugElement} from "@angular/core";
+import {CORE_DIRECTIVES} from "@angular/common";
 import {MdCheckbox} from "../../../ng2-material/components/checkbox/checkbox";
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
+import {DomAdapter} from "@angular/platform-browser/src/dom/dom_adapter";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter";
 import {KeyCodes} from "../../../ng2-material/core/key_codes";
-import {By} from "angular2/platform/browser";
-
+import {By} from "@angular/platform-browser";
+//import { Promise } from "es6-promise";
 
 export function main() {
 
   interface ICheckboxFixture {
-    fixture: ComponentFixture;
+    fixture: ComponentFixture<any>;
     comp: MdCheckbox;
     debug: DebugElement;
   }
@@ -38,9 +38,10 @@ export function main() {
 
   describe('Checkbox', () => {
     let builder: TestComponentBuilder;
-
+    let dom: DomAdapter = new BrowserDomAdapter();
+    
     function setup(checked: boolean = false, disabled: boolean = false): Promise<ICheckboxFixture> {
-      return builder.createAsync(TestComponent).then((fixture: ComponentFixture) => {
+      return builder.createAsync(TestComponent).then((fixture: ComponentFixture<any>) => {
         let debug = fixture.debugElement.query(By.css('md-checkbox'));
         let comp: MdCheckbox = debug.componentInstance;
         let testComp = fixture.debugElement.componentInstance;
@@ -90,7 +91,7 @@ export function main() {
         it('should toggle when the space key is pressed', injectAsync([], () => {
           return setup().then((api: ICheckboxFixture) => {
             expect(api.comp.checked).toBe(false);
-            let event = DOM.createEvent('key');
+            let event = dom.createEvent('key');
             event.keyCode = KeyCodes.SPACE;
             api.debug.triggerEventHandler('keydown', event);
             expect(api.comp.checked).toBe(true);
@@ -99,7 +100,7 @@ export function main() {
         it('should not toggle when any other key is pressed', injectAsync([], () => {
           return setup().then((api: ICheckboxFixture) => {
             expect(api.comp.checked).toBe(false);
-            let event = DOM.createEvent('key');
+            let event = dom.createEvent('key');
             event.keyCode = KeyCodes.DOWN;
             api.debug.triggerEventHandler('keydown', event);
             expect(api.comp.checked).toBe(false);

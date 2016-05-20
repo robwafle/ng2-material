@@ -1,6 +1,6 @@
-import {Component, ViewEncapsulation, OnChanges, ElementRef} from "angular2/core";
-import {TimerWrapper} from "angular2/src/facade/async";
-import {isPresent} from "angular2/src/facade/lang";
+import {Component, ViewEncapsulation, OnChanges, ElementRef} from "@angular/core";
+import {TimerWrapper} from "@angular/common/src/facade/async";
+import {isPresent} from "@angular/common/src/facade/lang";
 import {Ink} from "../../core/util/ink";
 
 

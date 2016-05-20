@@ -1,5 +1,5 @@
-import {Directive, ElementRef, AfterViewInit, Component} from "angular2/core";
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
+import {Directive, ElementRef, AfterViewInit, Component} from "@angular/core";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter";
 
 
 /**
@@ -26,6 +26,10 @@ import {DOM} from "angular2/src/platform/dom/dom_adapter";
   }
 })
 export class MdList {
+  private dom : BrowserDomAdapter;
+  constructor() {
+    this.dom = new BrowserDomAdapter();
+  }
 }
 
 /**
@@ -68,7 +72,10 @@ export class MdList {
     </div>`
 })
 export class MdListItem implements AfterViewInit {
+  private dom : BrowserDomAdapter;
+
   constructor(private _element: ElementRef) {
+    this.dom = new BrowserDomAdapter();
   }
 
   ngAfterViewInit(): any {
@@ -81,9 +88,9 @@ export class MdListItem implements AfterViewInit {
     let el = this._element.nativeElement;
 
     for (var i = 0, toggleType; toggleType = toggleTypes[i]; ++i) {
-      if (toggle = DOM.querySelector(el, toggleType)) {
+      if (toggle = this.dom.querySelector(el, toggleType)) {
         if (!toggle.hasAttribute('aria-label')) {
-          var p = DOM.querySelector(el, 'p');
+          var p = this.dom.querySelector(el, 'p');
           if (!p) return;
           toggle.setAttribute('aria-label', 'Toggle ' + p.textContent);
         }

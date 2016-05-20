@@ -1,18 +1,20 @@
 import {
-  TestComponentBuilder,
   beforeEach,
   describe,
   expect,
   inject,
   it,
-  injectAsync,
-  ComponentFixture
-} from "angular2/testing";
-import {Component, ViewMetadata, DebugElement} from "angular2/core";
+  injectAsync
+} from "@angular/core/testing";
+import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
+import {Component, DebugElement} from "@angular/core";
 import {MdButton, MdAnchor} from "../../../ng2-material/components/button/button";
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
+import {DomAdapter} from "@angular/platform-browser/src/dom/dom_adapter";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter";
 import {Ink} from "../../../ng2-material/core/util/ink";
-import {By} from "angular2/platform/browser";
+import {By} from "@angular/platform-browser";
+import {ViewMetadata} from "@angular/core";
+//import { Promise } from "es6-promise";
 
 export function main() {
 
@@ -36,12 +38,13 @@ export function main() {
   describe('MdButton', () => {
 
     let builder: TestComponentBuilder;
+    let dom: DomAdapter = new BrowserDomAdapter();
 
-    function setup(template: string = defaultTemplate): Promise<ComponentFixture> {
+    function setup(template: string = defaultTemplate): Promise<ComponentFixture<any>> {
       return builder
         .overrideTemplate(TestComponent, template)
         .createAsync(TestComponent)
-        .then((fixture: ComponentFixture) => {
+        .then((fixture: ComponentFixture<any>) => {
           fixture.detectChanges();
           return fixture;
         }).catch(console.error.bind(console));
@@ -53,7 +56,7 @@ export function main() {
 
     describe('button[md-button]', () => {
       it('should handle a click on the button', injectAsync([], () => {
-        return setup().then((fixture: ComponentFixture) => {
+        return setup().then((fixture: ComponentFixture<any>) => {
           let testComponent = fixture.debugElement.componentInstance;
           let buttonDebugElement = fixture.debugElement.query(By.css('button'));
 
@@ -64,7 +67,7 @@ export function main() {
 
 
       it('should ink ripple when clicked', injectAsync([], () => {
-        return setup().then((fixture: ComponentFixture) => {
+        return setup().then((fixture: ComponentFixture<any>) => {
           let button: DebugElement = fixture.debugElement.children[0];
 
           let save = Ink.rippleEvent;
@@ -74,7 +77,7 @@ export function main() {
             return Promise.resolve();
           };
 
-          let event = DOM.createEvent('mouse');
+          let event = dom.createEvent('mouse');
           button.triggerEventHandler('mousedown', event);
 
 
@@ -85,7 +88,7 @@ export function main() {
 
       it('should not ink ripple with md-no-ink attribute', injectAsync([], () => {
         let template = `<button md-button md-no-ink></button>`;
-        return setup(template).then((fixture: ComponentFixture) => {
+        return setup(template).then((fixture: ComponentFixture<any>) => {
           let button: DebugElement = fixture.debugElement.children[0];
           let save = Ink.rippleEvent;
           let fired = false;
@@ -94,7 +97,7 @@ export function main() {
             return Promise.resolve();
           };
 
-          let event = DOM.createEvent('mouse');
+          let event = dom.createEvent('mouse');
           button.triggerEventHandler('mousedown', event);
 
           expect(fired).toBe(false);
@@ -103,7 +106,7 @@ export function main() {
       }));
 
       it('should disable the button', injectAsync([], () => {
-        return setup().then((fixture: ComponentFixture) => {
+        return setup().then((fixture: ComponentFixture<any>) => {
           let testAppComponent = fixture.debugElement.componentInstance;
           let buttonDebugElement = fixture.debugElement.query(By.css('button'));
           let buttonElement = buttonDebugElement.nativeElement;
@@ -134,7 +137,7 @@ export function main() {
       });
 
       it('should remove disabled anchors from tab order', injectAsync([], () => {
-        return builder.createAsync(TestComponent).then((fixture: ComponentFixture) => {
+        return builder.createAsync(TestComponent).then((fixture: ComponentFixture<any>) => {
           let testAppComponent = fixture.debugElement.componentInstance;
           let anchorDebugElement = fixture.debugElement.query(By.css('a'));
           let anchorElement = anchorDebugElement.nativeElement;
@@ -153,9 +156,9 @@ export function main() {
       }), 10000);
 
       it('should not preventDefault on enabled anchor clicks', injectAsync([], () => {
-        return builder.createAsync(TestComponent).then((fixture: ComponentFixture) => {
+        return builder.createAsync(TestComponent).then((fixture: ComponentFixture<any>) => {
           let anchor: DebugElement = fixture.debugElement.children[0];
-          let event = DOM.createEvent('mouse');
+          let event = dom.createEvent('mouse');
           let triggered = false;
           event.preventDefault = () => triggered = true;
           anchor.triggerEventHandler('click', event);
@@ -163,10 +166,10 @@ export function main() {
         });
       }));
       it('should preventDefault for disabled anchor clicks', injectAsync([], () => {
-        return builder.createAsync(TestComponent).then((fixture: ComponentFixture) => {
+        return builder.createAsync(TestComponent).then((fixture: ComponentFixture<any>) => {
           let anchor: DebugElement = fixture.debugElement.children[0];
           let anchorComp: MdAnchor = anchor.componentInstance;
-          let event = DOM.createEvent('mouse');
+          let event = dom.createEvent('mouse');
           let triggered = false;
           event.preventDefault = () => triggered = true;
           anchorComp.disabled = true;

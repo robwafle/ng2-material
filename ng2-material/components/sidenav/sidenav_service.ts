@@ -1,9 +1,10 @@
-import {Injectable} from "angular2/core";
+import {Injectable} from "@angular/core";
 import {MdSidenav} from "./sidenav";
+//import { Promise } from "es6-promise";
 
 @Injectable()
 export class SidenavService {
-  show(name: string): Promise<void> {
+  show(name: string): Promise<any> {
     let instance: MdSidenav = this.find(name);
     if (!instance) {
       return Promise.reject('invalid container');
@@ -11,7 +12,7 @@ export class SidenavService {
     return instance.show();
   }
 
-  hide(name: string): Promise<void> {
+  hide(name: string): Promise<any> {
     let instance: MdSidenav = this.find(name);
     if (!instance) {
       return Promise.reject('invalid container');

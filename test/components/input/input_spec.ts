@@ -1,17 +1,17 @@
 import {componentSanityCheck, promiseWait} from "../../util";
 import {
-  TestComponentBuilder,
   beforeEach,
   describe,
   expect,
   inject,
   it,
-  injectAsync,
-  ComponentFixture
-} from "angular2/testing";
-import {Component, DebugElement, Input} from "angular2/core";
+  injectAsync
+} from "@angular/core/testing";
+import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
+import {Component, DebugElement, Input} from "@angular/core";
 import {MdInput, MdInputContainer} from "../../../ng2-material/components/input/input";
-import {By} from "angular2/platform/browser";
+import {By} from "@angular/platform-browser";
+//import { Promise } from "es6-promise";
 
 export function main() {
 
@@ -19,7 +19,7 @@ export function main() {
   componentSanityCheck('Input Container', 'md-input-container', template);
 
   interface IInputFixture {
-    fixture: ComponentFixture;
+    fixture: ComponentFixture<any>;
     input: MdInput;
     container: MdInputContainer;
     inputDebug: DebugElement;
@@ -44,7 +44,7 @@ export function main() {
       let prep = template === null ?
         builder.createAsync(TestComponent) :
         builder.overrideTemplate(TestComponent, template).createAsync(TestComponent);
-      return prep.then((fixture: ComponentFixture) => {
+      return prep.then((fixture: ComponentFixture<any>) => {
         fixture.detectChanges();
         let input = fixture.debugElement.query(By.css('[md-input]'));
         let container = fixture.debugElement.query(By.css('md-input-container'));

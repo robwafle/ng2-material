@@ -1,18 +1,20 @@
-import {isPresent} from "angular2/src/facade/lang";
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
+import {isPresent} from "@angular/common/src/facade/lang";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter";
 import {Animate} from "./animate";
+//import { Promise } from "es6-promise";
 
 /**
  * Create ink ripples on elements in the page.
  */
 export class Ink {
 
+  static dom = new BrowserDomAdapter();
   /**
    * Determine if ink can be applied to a given element.
    * @param element The element to check
    */
   static canApply(element: HTMLElement): boolean {
-    return !DOM.hasAttribute(element, 'md-no-ink');
+    return !this.dom.hasAttribute(element, 'md-no-ink');
   }
 
   /**
@@ -39,20 +41,20 @@ export class Ink {
    * @returns {Promise<any>} A promise that resolves when the ripple has faded
    */
   static ripple(element: HTMLElement, left: number, top: number): Promise<any> {
-    let fit: boolean = isPresent(DOM.getAttribute(element, 'md-fab'));
+    let fit: boolean = isPresent(this.dom.getAttribute(element, 'md-fab'));
 
-    let container = DOM.querySelector(element, '.md-ripple-container');
+    let container = this.dom.querySelector(element, '.md-ripple-container');
     if (!container) {
-      container = DOM.createElement('div');
-      DOM.addClass(container, 'md-ripple-container');
-      DOM.appendChild(element, container);
+      container = this.dom.createElement('div');
+      this.dom.addClass(container, 'md-ripple-container');
+      this.dom.appendChild(element, container);
     }
 
-    let ripple = DOM.createElement('div');
-    DOM.addClass(ripple, 'md-ripple');
+    let ripple = this.dom.createElement('div');
+    this.dom.addClass(ripple, 'md-ripple');
 
     let getInitialStyles = (): any => {
-      let color = DOM.getComputedStyle(element).color || 'rgb(0,0,0)';
+      let color = this.dom.getComputedStyle(element).color || 'rgb(0,0,0)';
       let size = Ink.getSize(fit, element.clientWidth, element.clientHeight);
       return {
         'background-color': color,
@@ -64,15 +66,15 @@ export class Ink {
     };
 
     return Animate.setStyles(ripple, getInitialStyles())
-      .then(() => DOM.appendChild(container, ripple))
-      .then(() => DOM.addClass(ripple, 'md-ripple-placed'))
+      .then(() => this.dom.appendChild(container, ripple))
+      .then(() => this.dom.addClass(ripple, 'md-ripple-placed'))
       .then(() => Animate.wait())
-      .then(() => DOM.addClass(ripple, 'md-ripple-scaled'))
-      .then(() => DOM.addClass(ripple, 'md-ripple-active'))
+      .then(() => this.dom.addClass(ripple, 'md-ripple-scaled'))
+      .then(() => this.dom.addClass(ripple, 'md-ripple-active'))
       .then(() => Animate.wait(450))
-      .then(() => DOM.removeClass(ripple, 'md-ripple-active'))
+      .then(() => this.dom.removeClass(ripple, 'md-ripple-active'))
       .then(() => Animate.wait(650))
-      .then(() => DOM.removeChild(container, ripple));
+      .then(() => this.dom.removeChild(container, ripple));
   }
 
   /**
@@ -86,7 +88,7 @@ export class Ink {
     let rippleX = event.offsetX;
     let rippleY = event.offsetY;
     if (element !== event.srcElement) {
-      let rect = DOM.getBoundingClientRect(element);
+      let rect = this.dom.getBoundingClientRect(element);
       rippleX = event.clientX - rect.left;
       rippleY = event.clientY - rect.top;
     }

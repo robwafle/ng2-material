@@ -1,23 +1,23 @@
 import {
-  TestComponentBuilder,
   beforeEach,
   describe,
   expect,
   inject,
   it,
-  injectAsync,
-  ComponentFixture
-} from "angular2/testing";
-import {Component, DebugElement} from "angular2/core";
-import {CORE_DIRECTIVES} from "angular2/common";
+  injectAsync
+} from "@angular/core/testing";
+import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
+import {Component, DebugElement} from "@angular/core";
+import {CORE_DIRECTIVES} from "@angular/common";
 import {ProgressMode} from "../../../ng2-material/components/progress_linear/progress_linear";
 import {MdProgressCircular} from "../../../ng2-material/components/progress_circular/progress_circular";
-import {By} from "angular2/platform/browser";
+import {By} from "@angular/platform-browser";
+//import { Promise } from "es6-promise";
 
 export function main() {
 
   interface IProgressFixture {
-    fixture: ComponentFixture;
+    fixture: ComponentFixture<any>;
     progress: MdProgressCircular;
     debug: DebugElement;
   }
@@ -40,7 +40,7 @@ export function main() {
       let prep = template === null ?
         builder.createAsync(TestComponent) :
         builder.overrideTemplate(TestComponent, template).createAsync(TestComponent);
-      return prep.then((fixture: ComponentFixture) => {
+      return prep.then((fixture: ComponentFixture<any>) => {
         fixture.detectChanges();
         let debug = fixture.debugElement.query(By.css('md-progress-circular'));
         let component = <MdProgressCircular>debug.componentInstance;

@@ -1,24 +1,24 @@
 import {componentSanityCheck} from '../../util';
 import {
-  TestComponentBuilder,
   beforeEach,
   describe,
   expect,
   inject,
   it,
-  injectAsync,
-  ComponentFixture
-} from 'angular2/testing';
-import {Component, DebugElement} from 'angular2/core';
-import {CORE_DIRECTIVES} from 'angular2/common';
-import {MdDataTable} from 'ng2-material/components/data_table/data_table';
-import {By} from 'angular2/platform/browser';
+  injectAsync
+} from "@angular/core/testing";
+import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
+import {Component, DebugElement} from '@angular/core';
+import {CORE_DIRECTIVES} from "@angular/common";
+import {MdDataTable} from '../../../ng2-material/components/data_table/data_table';
+import {By} from "@angular/platform-browser";
 import {MdDataTableHeaderSelectableRow, MdDataTableSelectableRow} from '../../../ng2-material/components/data_table/data_table_selectable_tr';
+//import { Promise } from "es6-promise";
 
 export function main() {
 
   interface IDataTableFixture {
-    fixture: ComponentFixture;
+    fixture: ComponentFixture<any>;
     comp: MdDataTable;
     debug: DebugElement;
   }
@@ -51,7 +51,7 @@ export function main() {
     let builder: TestComponentBuilder;
 
     function setup(checked: boolean = false, disabled: boolean = false): Promise<IDataTableFixture> {
-      return builder.createAsync(TestComponent).then((fixture: ComponentFixture) => {
+      return builder.createAsync(TestComponent).then((fixture: ComponentFixture<any>) => {
         let debug = fixture.debugElement.query(By.css('md-data-table'));
         let comp: MdDataTable = debug.componentInstance;
         let testComp = fixture.debugElement.componentInstance;

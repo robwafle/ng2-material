@@ -1,22 +1,22 @@
 import {
-  TestComponentBuilder,
   beforeEach,
   describe,
   expect,
   inject,
   it,
-  injectAsync,
-  ComponentFixture
-} from "angular2/testing";
-import {Component, DebugElement} from "angular2/core";
-import {By} from "angular2/platform/browser";
+  injectAsync
+} from "@angular/core/testing";
+import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
+import {Component, DebugElement} from "@angular/core";
+import {By} from "@angular/platform-browser";
 import {MdSidenav} from "../../../ng2-material/components/sidenav/sidenav";
 import {SidenavService} from "../../../ng2-material/components/sidenav/sidenav_service";
+////import { Promise } from "es6-promise";
 
 export function main() {
 
   interface ITestFixture {
-    fixture: ComponentFixture;
+    fixture: ComponentFixture<any>;
     component: MdSidenav;
     debug: DebugElement;
   }
@@ -40,7 +40,7 @@ export function main() {
       let prep = template === null ?
         builder.createAsync(TestComponent) :
         builder.overrideTemplate(TestComponent, template).createAsync(TestComponent);
-      return prep.then((fixture: ComponentFixture) => {
+      return prep.then((fixture: ComponentFixture<any>) => {
         fixture.detectChanges();
         let debug = fixture.debugElement.query(By.css('md-sidenav'));
         return {

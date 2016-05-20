@@ -1,12 +1,13 @@
-import {Component, OnInit} from "angular2/core";
-import {ROUTER_DIRECTIVES} from "angular2/router";
+import {Component, OnInit} from "@angular/core";
+import {ROUTER_DIRECTIVES} from "@angular/router";
 import {ComponentsService, IComponentMeta} from "../services/components";
 import {NavigationService} from "../services/navigation";
-import {MATERIAL_DIRECTIVES, SidenavService} from "ng2-material/all";
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
+import {MATERIAL_DIRECTIVES, SidenavService} from "../../ng2-material/all";
+import {DomAdapter} from "@angular/platform-browser/src/dom/dom_adapter";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter";
 import {Highlight} from "../highlight";
-import {TimerWrapper} from "angular2/src/facade/async";
-import {Http, Response} from "angular2/http";
+import {TimerWrapper} from "@angular/common/src/facade/async";
+import {Http, Response} from "@angular/http";
 
 @Component({
   templateUrl: 'examples/routes/index.html',
@@ -17,6 +18,7 @@ export class IndexPage implements OnInit {
 
   public angularVersion: string = '';
   public linkTag: string = '';
+  private dom : DomAdapter = new BrowserDomAdapter();
 
   constructor(private _components: ComponentsService,
               private _sidenav: SidenavService,
@@ -40,7 +42,7 @@ export class IndexPage implements OnInit {
       .then((comps) => {
         this.components = comps;
         let title = 'Angular2 Material';
-        DOM.setTitle(title);
+        this.dom.setTitle(title);
         this.navigation.currentTitle = title;
         this.navigation.prevLink = this.navigation.componentLink(comps[comps.length - 1]);
         this.navigation.nextLink = this.navigation.componentLink(comps[0]);

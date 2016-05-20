@@ -1,13 +1,13 @@
-import {Component, Input, OnDestroy, ApplicationRef} from "angular2/core";
-import {ROUTER_DIRECTIVES, RouteConfig, Router} from "angular2/router";
+import {Component, Input, OnDestroy, ApplicationRef} from "@angular/core";
+import {ROUTER_DIRECTIVES, Router, Routes} from "@angular/router";
 import {DEMO_DIRECTIVES} from "./all";
 import Example from "./example";
-import {Http, Response} from "angular2/http";
+import {Http, Response} from "@angular/http";
 import {IndexPage} from "./routes/index";
 import {ComponentPage} from "./routes/component";
 import {ComponentsService, IComponentMeta} from "./services/components";
 import {NavigationService} from "./services/navigation";
-import {Media, MATERIAL_DIRECTIVES, SidenavService} from "ng2-material/all";
+import {Media, MATERIAL_DIRECTIVES, SidenavService} from "../ng2-material/all";
 // import {bootstrap} from "angular2/bootstrap";
 
 /**
@@ -21,9 +21,9 @@ export interface IExampleData {
   name: string;
 }
 
-@RouteConfig([
-  {path: '/', name: 'Index', component: IndexPage, useAsDefault: true},
-  {path: '/components/:id', name: 'Component', component: ComponentPage}
+@Routes([
+  {path: '/', component: IndexPage},
+  {path: '/components/:id', component: ComponentPage}
 ])
 @Component({
   selector: 'demos-app',

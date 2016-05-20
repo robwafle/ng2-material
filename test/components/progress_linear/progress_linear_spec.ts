@@ -1,22 +1,22 @@
 import {
-  TestComponentBuilder,
   beforeEach,
   describe,
   expect,
   inject,
   it,
-  ComponentFixture,
   injectAsync
-} from "angular2/testing";
-import {Component, DebugElement} from "angular2/core";
-import {CORE_DIRECTIVES} from "angular2/common";
+} from "@angular/core/testing";
+import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
+import {Component, DebugElement} from "@angular/core";
+import {CORE_DIRECTIVES} from "@angular/common";
 import {MdProgressLinear, ProgressMode} from "../../../ng2-material/components/progress_linear/progress_linear";
-import {By} from "angular2/platform/browser";
+import {By} from "@angular/platform-browser";
+//import { Promise } from "es6-promise";
 
 export function main() {
 
   interface IProgressFixture {
-    fixture: ComponentFixture;
+    fixture: ComponentFixture<any>;
     progress: MdProgressLinear;
     debug: DebugElement;
   }
@@ -42,7 +42,7 @@ export function main() {
       let prep = template === null ?
         builder.createAsync(TestComponent) :
         builder.overrideTemplate(TestComponent, template).createAsync(TestComponent);
-      return prep.then((fixture: ComponentFixture) => {
+      return prep.then((fixture: ComponentFixture<any>) => {
         fixture.detectChanges();
         let debug = fixture.debugElement.query(By.css('md-progress-linear'));
         let component = <MdProgressLinear>debug.componentInstance;

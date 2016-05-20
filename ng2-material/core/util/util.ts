@@ -1,6 +1,6 @@
-import {isPresent} from "angular2/src/facade/lang";
-import {NumberWrapper} from "angular2/src/facade/lang";
-import {TimerWrapper} from "angular2/src/facade/async";
+import {isPresent} from "@angular/common/src/facade/lang";
+import {NumberWrapper} from "@angular/common/src/facade/lang";
+import {TimerWrapper} from "@angular/common/src/facade/async";
 /**
  * Returns a function, that, as long as it continues to be invoked, will not
  * be triggered. The function will be called after it stops being called for

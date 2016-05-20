@@ -1,9 +1,9 @@
-import {CONST_EXPR, Type} from "angular2/src/facade/lang";
+import {Type} from "@angular/common/src/facade/lang";
 import {MdAnchor, MdButton} from "./components/button/button";
 import {MdCheckbox} from "./components/checkbox/checkbox";
 import {MdContent} from "./components/content/content";
 import {MdDataTable, MdDataTableHeaderSelectableRow, MdDataTableSelectableRow} from './components/data_table/data_table';
-import {MdDialog} from "./components/dialog/dialog";
+//import {MdDialog} from "./components/dialog/dialog";
 import {MdDivider} from "./components/divider/divider";
 import {MdIcon} from "./components/icon/icon";
 import {MdInk} from "./components/ink/ink";
@@ -38,7 +38,7 @@ export * from './components/content/content';
 
 export * from './components/data_table/data_table';
 
-export * from './components/dialog/dialog';
+//export * from './components/dialog/dialog';
 export * from './components/divider/divider';
 
 export * from './components/icon/icon';
@@ -75,14 +75,14 @@ export * from './components/tabs/tabs';
 export * from './core/util/media';
 
 import {ViewportHelper, BrowserViewportHelper, NodeViewportHelper} from "./core/util/viewport";
-import {provide} from "angular2/core";
+import {provide} from "@angular/core";
 export * from './core/util/viewport';
 export * from './core/util/animate';
 
 /**
  * Collection of Material Design component directives.
  */
-export const MATERIAL_DIRECTIVES: Type[] = CONST_EXPR([
+export const MATERIAL_DIRECTIVES =[
   MdAnchor, MdButton,
   MdCheckbox,
   MdContent,
@@ -105,27 +105,27 @@ export const MATERIAL_DIRECTIVES: Type[] = CONST_EXPR([
   MdSwitch,
   MdToolbar,
   MdTab, MdTabs
-]);
+];
 
 /**
  * Material Design component providers for use in a Node.JS environment.
  */
-export const MATERIAL_NODE_PROVIDERS: any[] = CONST_EXPR([
+export const MATERIAL_NODE_PROVIDERS: any[] = [
   provide(ViewportHelper, {useClass: NodeViewportHelper}),
-  MdDialog,
+ // MdDialog,
   Media,
   SidenavService,
   MdRadioDispatcher,
   INPUT_VALIDATORS
-]);
+];
 
 /**
  * Material Design component providers for use in the browser.
  */
-export const MATERIAL_BROWSER_PROVIDERS: any[] = CONST_EXPR([
+export const MATERIAL_BROWSER_PROVIDERS: any[] = [
   MATERIAL_NODE_PROVIDERS,
   provide(ViewportHelper, {useClass: BrowserViewportHelper})
-]);
+];
 
 
 /**

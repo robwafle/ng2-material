@@ -1,17 +1,17 @@
-import {Component, ViewEncapsulation, OnChanges, Input} from "angular2/core";
-import {CONST, isPresent, isBlank} from "angular2/src/facade/lang";
-import {Math} from "angular2/src/facade/math";
+import {Component, ViewEncapsulation, OnChanges, Input} from "@angular/core";
+import {isPresent, isBlank} from "@angular/common/src/facade/lang";
+import {Math} from "@angular/platform-browser/src/facade/math";
 
 /** Different display / behavior modes for progress_linear. */
-@CONST()
+//@CONST()
 export class ProgressMode {
-  @CONST()
+  //@CONST()
   static DETERMINATE = 'determinate';
-  @CONST()
+  //@CONST()
   static INDETERMINATE = 'indeterminate';
-  @CONST()
+  //@CONST()
   static BUFFER = 'buffer';
-  @CONST()
+  //@CONST()
   static QUERY = 'query';
 }
 

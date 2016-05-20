@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter, ContentChild, ContentChildren, QueryList, AfterContentInit} from 'angular2/core';
-import {isPresent} from "angular2/src/facade/lang";
+import {Component, Input, Output, EventEmitter, ContentChild, ContentChildren, QueryList, AfterContentInit} from '@angular/core';
+import {isPresent} from "@angular/common/src/facade/lang";
 import 'rxjs/add/operator/share';
 import {MdDataTableHeaderSelectableRow, MdDataTableSelectableRow, ITableSelectableRowSelectionChange} from './data_table_selectable_tr';
 
@@ -31,10 +31,10 @@ export class MdDataTable implements AfterContentInit {
   @Output()
   onSelectableChange: EventEmitter<any> = new EventEmitter(false);
 
-  @ContentChild(MdDataTableHeaderSelectableRow)
+  @ContentChild(typeof(MdDataTableHeaderSelectableRow))
   _masterRow: MdDataTableHeaderSelectableRow;
 
-  @ContentChildren(MdDataTableSelectableRow, true)
+  @ContentChildren(typeof(MdDataTableSelectableRow), true)
   _rows: QueryList<MdDataTableSelectableRow>;
 
   selected: Array<string> = [];

@@ -1,15 +1,15 @@
-import {Directive, OnDestroy, Input, ApplicationRef} from "angular2/core";
+import {Directive, OnDestroy, Input, ApplicationRef} from "@angular/core";
 import {Media, MediaListener} from "../../core/util/media";
 import {debounce} from "../../core/util/util";
-import {CONST, NumberWrapper, isString, isPresent} from "angular2/src/facade/lang";
+import {NumberWrapper, isString, isPresent} from "@angular/common/src/facade/lang";
 import {ViewportHelper} from "../../core/util/viewport";
 
 /** Different peekaboo actions to apply when active */
-@CONST()
+//@CONST()
 export class PeekabooAction {
-  @CONST()
+  //@CONST()
   static SHOW = 'show';
-  @CONST()
+  //  @CONST()
   static HIDE = 'hide';
 }
 

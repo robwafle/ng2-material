@@ -1,5 +1,5 @@
-import {Component, Output, Input, EventEmitter, Inject, Optional, forwardRef, ElementRef, AfterContentInit} from "angular2/core";
-import {isPresent} from "angular2/src/facade/lang";
+import {Component, Output, Input, EventEmitter, Inject, Optional, forwardRef, ElementRef, AfterContentInit} from "@angular/core";
+import {isPresent} from "@angular/common/src/facade/lang";
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
 import {MdCheckbox} from "../checkbox/checkbox";
