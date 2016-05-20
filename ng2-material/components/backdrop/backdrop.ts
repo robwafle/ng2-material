@@ -1,6 +1,6 @@
 import {Animate} from "../../core/util/animate";
 import {ElementRef, ViewEncapsulation, Component, Input, Output, EventEmitter} from "@angular/core";
-import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter.d";
+import {BrowserDomAdapter} from "@angular/platform-browser/src/browser/browser_adapter";
 import {ViewportHelper} from "../../core/util/viewport";
 //import { Promise } from "es6-promise";
 
