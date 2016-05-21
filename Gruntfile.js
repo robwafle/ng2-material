@@ -54,10 +54,6 @@ module.exports = function (grunt) {
             expand: true,
             src: [
               './node_modules/systemjs/dist/*.js',
-              './node_modules/angular2/bundles/angular2-polyfills.js',
-              './node_modules/angular2/bundles/angular2.dev.js',
-              './node_modules/angular2/bundles/http.dev.js',
-              './node_modules/angular2/bundles/router.dev.js',
               './node_modules/highlightjs/highlight.pack.js',
               './node_modules/es6-shim/es6-*.js',
               './node_modules/highlightjs/styles/*.css',
