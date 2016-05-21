@@ -207,6 +207,9 @@ export class MdSidenavContainer implements OnDestroy, AfterViewInit {
   ngAfterViewInit(): any {
     // Tell each child about the backdrop so they can show it
     // when they are opened or closed.
+    if (!this._backdrop) {
+      return;
+    }
     this.children.toArray().forEach((m: MdSidenav) => {
       m.backdropRef = this._backdrop;
     });

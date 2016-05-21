@@ -124,6 +124,9 @@ export class MdBackdrop {
    * @returns {any}
    */
   toggle(visible: boolean = !this.visible): any {
+
+    let dom = new BrowserDomAdapter();
+
     if (visible === this._visible) {
       return Promise.resolve();
     }
@@ -140,14 +143,14 @@ export class MdBackdrop {
 
     // Page scroll
     if (visible && this.hideScroll && this.element && !this._previousOverflow) {
-      let style = this.dom.getStyle(this._body, 'overflow');
+      let style = dom.getStyle(this._body, 'overflow');
       if (style !== 'hidden') {
         this._previousOverflow = style;
-        this.dom.setStyle(this._body, 'overflow', 'hidden');
+        dom.setStyle(this._body, 'overflow', 'hidden');
       }
     }
     else if (!visible && this.hideScroll && this.element && this._previousOverflow !== null) {
-      this.dom.setStyle(this._body, 'overflow', this._previousOverflow);
+      dom.setStyle(this._body, 'overflow', this._previousOverflow);
       this._previousOverflow = null;
     }
 

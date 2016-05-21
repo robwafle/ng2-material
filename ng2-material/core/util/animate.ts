@@ -10,14 +10,15 @@ export class Animate {
   /**
    * Look up the transition event name for the browser type and cache it.
    */
-  static dom = new BrowserDomAdapter();
+  //static dom = new BrowserDomAdapter(); // todo: make this a singleton in a service?
 
   static TRANSITION_EVENT: string = Animate.whichTransitionEvent();
 
   static enter(el: HTMLElement, cssClass: string): Promise<void> {
-    this.dom.removeClass(el, cssClass);
+    let dom = new BrowserDomAdapter();
+    dom.removeClass(el, cssClass);
     return new Promise<void>((resolve)=> {
-      this.dom.addClass(el, cssClass + '-add');
+      dom.addClass(el, cssClass + '-add');
       TimerWrapper.setTimeout(() => {
         var duration = Animate.getTransitionDuration(el, true);
         var callTimeout = TimerWrapper.setTimeout(() => done(true), duration);
@@ -25,8 +26,8 @@ export class Animate {
           if (!removeListener) {
             return;
           }
-          this.dom.removeClass(el, cssClass + '-add-active');
-          this.dom.removeClass(el, cssClass + '-add');
+          dom.removeClass(el, cssClass + '-add-active');
+          dom.removeClass(el, cssClass + '-add');
           if (!timeout) {
             TimerWrapper.clearTimeout(callTimeout);
           }
@@ -34,16 +35,17 @@ export class Animate {
           removeListener = null;
           resolve();
         };
-        let removeListener = this.dom.onAndCancel(el, Animate.TRANSITION_EVENT, () => done(false));
-        this.dom.addClass(el, cssClass + '-add-active');
-        this.dom.addClass(el, cssClass);
+        let removeListener = dom.onAndCancel(el, Animate.TRANSITION_EVENT, () => done(false));
+        dom.addClass(el, cssClass + '-add-active');
+        dom.addClass(el, cssClass);
       }, 1);
     });
   }
 
   static leave(el: HTMLElement, cssClass: string): Promise<void> {
+    let dom = new BrowserDomAdapter();
     return new Promise<void>((resolve)=> {
-      this.dom.addClass(el, cssClass + '-remove');
+      dom.addClass(el, cssClass + '-remove');
       TimerWrapper.setTimeout(() => {
         var duration = Animate.getTransitionDuration(el, true);
         var callTimeout = TimerWrapper.setTimeout(() => done(true), duration);
@@ -52,8 +54,8 @@ export class Animate {
           if (!removeListener) {
             return;
           }
-          this.dom.removeClass(el, cssClass + '-remove-active');
-          this.dom.removeClass(el, cssClass + '-remove');
+          dom.removeClass(el, cssClass + '-remove-active');
+          dom.removeClass(el, cssClass + '-remove');
           if (!timeout) {
             TimerWrapper.clearTimeout(callTimeout);
           }
@@ -61,9 +63,9 @@ export class Animate {
           removeListener = null;
           resolve();
         };
-        let removeListener = this.dom.onAndCancel(el, Animate.TRANSITION_EVENT, done);
-        this.dom.addClass(el, cssClass + '-remove-active');
-        this.dom.removeClass(el, cssClass);
+        let removeListener = dom.onAndCancel(el, Animate.TRANSITION_EVENT, done);
+        dom.addClass(el, cssClass + '-remove-active');
+        dom.removeClass(el, cssClass);
       }, 1);
     });
   }
@@ -77,8 +79,9 @@ export class Animate {
    * @returns {number}
    */
   static getTransitionDuration(element: HTMLElement, includeDelay: boolean = false) {
+    let dom = new BrowserDomAdapter();
     var prefixes = ['', 'moz', 'webkit', 'ms', 'o', 'khtml'];
-    var style: any = this.dom.getComputedStyle(element);
+    var style: any = dom.getComputedStyle(element);
     for (let i = 0; i < prefixes.length; i++) {
       let durationProperty = (i === 0 ? '' : `-${prefixes[i]}-`) + `transition-duration`;
       let duration = style[durationProperty];
@@ -102,7 +105,8 @@ export class Animate {
   }
 
   static setTransitionDuration(element: HTMLElement, delayMs: number) {
-    this.dom.setStyle(element, 'transition-duration', `${delayMs}ms`);
+    let dom = new BrowserDomAdapter();
+    dom.setStyle(element, 'transition-duration', `${delayMs}ms`);
   }
 
   /* From Modernizr */
@@ -127,6 +131,7 @@ export class Animate {
   }
 
   static animateStyles(element: HTMLElement, styles: {[style: string]: string|number}, durationMs: number): Promise<void> {
+    let dom = new BrowserDomAdapter();
     let saveDuration = Animate.getTransitionDuration(element);
     Animate.setTransitionDuration(element, durationMs);
     return new Promise<void>((animResolve, animReject) => {
@@ -145,13 +150,13 @@ export class Animate {
           Animate.setTransitionDuration(element, saveDuration);
         }
         else {
-          this.dom.removeStyle(element, 'transition-duration');
+          dom.removeStyle(element, 'transition-duration');
         }
         animResolve();
       };
-      let removeListener = this.dom.onAndCancel(element, Animate.TRANSITION_EVENT, () => done(false));
+      let removeListener = dom.onAndCancel(element, Animate.TRANSITION_EVENT, () => done(false));
       Object.keys(styles).forEach((key: string) => {
-        this.dom.setStyle(element, key, `${styles[key]}`);
+        dom.setStyle(element, key, `${styles[key]}`);
       });
 
     });
@@ -161,17 +166,18 @@ export class Animate {
    * Set CSS styles immediately by turning off transition duration and restoring it afterward
    */
   static setStyles(element: HTMLElement, styles: {[style: string]: string|number}): Promise<void> {
+    let dom = new BrowserDomAdapter();
     let saveDuration = Animate.getTransitionDuration(element);
     Animate.setTransitionDuration(element, 0);
     return new Promise<void>((resolve, reject) => {
       Object.keys(styles).forEach((key: string) => {
-        this.dom.setStyle(element, key, `${styles[key]}`);
+        dom.setStyle(element, key, `${styles[key]}`);
       });
       if (saveDuration !== -1) {
         Animate.setTransitionDuration(element, saveDuration);
       }
       else {
-        this.dom.removeStyle(element, 'transition-duration');
+        dom.removeStyle(element, 'transition-duration');
       }
       resolve();
     });

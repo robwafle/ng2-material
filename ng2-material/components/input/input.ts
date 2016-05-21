@@ -108,6 +108,10 @@ export class MdInputContainer implements AfterContentInit, OnChanges {
       return;
     }
 
+    if (!this._input) {
+      return;
+    }
+
     // TODO(jd): :sob: what is the correct way to update these variables after the component initializes?
     //  any time I do it directly here, debug mode complains about values changing after being checked. I
     //  need to wait until the content has been initialized so that `_input` is there
@@ -116,6 +120,9 @@ export class MdInputContainer implements AfterContentInit, OnChanges {
 
     // Listen to input changes and focus events so that we can apply the appropriate CSS
     // classes based on the input state.
+    if (!this._input.mdChange) {
+      return;
+    }
     this._input.mdChange.subscribe((value: string) => {
       this.inputHasValue = value !== '';
     });
