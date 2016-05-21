@@ -61,8 +61,7 @@ module.exports = function (grunt) {
               './node_modules/highlightjs/highlight.pack.js',
               './node_modules/es6-shim/es6-*.js',
               './node_modules/highlightjs/styles/*.css',
-              './node_modules/rxjs/bundles/Rx.js',
-              './node_modules/angular2/typings/**/*'
+              './node_modules/rxjs/bundles/Rx.js'
             ],
             dest: '<%- sitePath %>/<%- pkg.version %>/'
           },

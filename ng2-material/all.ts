@@ -1,3 +1,4 @@
+/// <reference path="../typings/index.d.ts" />
 import {Type} from "@angular/common/src/facade/lang";
 import {MdAnchor, MdButton} from "./components/button/button";
 import {MdCheckbox} from "./components/checkbox/checkbox";
